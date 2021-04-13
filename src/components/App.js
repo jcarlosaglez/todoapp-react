@@ -57,8 +57,18 @@ class App extends React.Component {
     }
 
     addTask = (e) => {
-        e.preventDefault();
-        console.log(e.target);
+        // Lo que reciba addTask se guarda en title
+        let title = e;
+        const repet = this.state.todos.find(e => title === e.title);
+
+        if (repet) {
+            alert(`La tarea "${title}" se encuentra dentro de las tareas por hacer!`);
+            return
+        }
+    
+        this.setState({
+            todos : this.state.todos.concat([{ title, done: false }])
+        });
     }
 
     render() {
