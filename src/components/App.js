@@ -12,7 +12,8 @@ class App extends React.Component {
             {title: "Tarea 3", done: true},
             {title: "Tarea 4", done: false},
             {title: "Tarea 5", done: true}, */
-        ]
+        ],
+        inputValue: ""
     }
 
     /* componentDidMount() {
@@ -32,7 +33,8 @@ class App extends React.Component {
                 {title: "Tarea 3", done: true},
                 {title: "Tarea 4", done: false},
                 {title: "Tarea 5", done: true},
-            ]
+            ],
+            inputValue: ""
         });
     }
 
@@ -56,9 +58,40 @@ class App extends React.Component {
         this.setState({todos: copyState});
     }
 
-    addTask = (e) => {
+    addTask = (e, title) => {
         e.preventDefault();
-        console.log(e.target);
+
+        if(!title.trim()) {
+            alert("No puedes agregar una tarea vacia.")
+            this.setState({inputValue: ""});
+            return;
+        }
+        
+        const copyState = [...this.state.todos];
+        // console.log(copyState[index]);
+
+        const exists = copyState.some(task => task.title.toLowerCase().trim() === title.toLowerCase().trim())
+
+        if(!exists) {
+            copyState.push({
+                title: title.trim(),
+                done: false
+            });
+
+            this.setState({todos: copyState, inputValue: ""});
+        }
+        else {
+            alert("La tarea ya existe.")
+        }
+    }
+
+    changeValue = e => {
+        // console.log(e);
+
+        e.preventDefault();
+        this.setState({
+            inputValue: e.target.value
+        })
     }
 
     render() {
@@ -72,7 +105,11 @@ class App extends React.Component {
                         todos={this.state.todos}
                     />
                     <button onClick={this.handleClick}>Inicializar</button>
-                    <Form addTask={this.addTask} />
+                    <Form
+                        changeValue={this.changeValue}
+                        inputValue={this.state.inputValue}
+                        addTask={this.addTask}
+                    />
                 </div>
             </div>
         )
