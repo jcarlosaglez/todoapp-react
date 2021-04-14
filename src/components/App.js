@@ -60,7 +60,7 @@ class App extends React.Component {
         // Lo que reciba addTask se guarda en title
         let title = e;
         console.log(title)
-        const repet = this.state.todos.find(e => title === e.title);
+        const repet = this.state.todos.find(e => title.toLowerCase() === e.title.toLowerCase());
         if (repet) {
           alert(`La tarea "${title}" se encuentra dentro de las tareas por hacer!`);
           return

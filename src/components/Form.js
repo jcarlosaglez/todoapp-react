@@ -11,7 +11,7 @@ class Form extends React.Component {
         console.log(this.value)
     }
     buttonSubmit = (e) => {
-        if(this.state.value !== ""){
+        if(this.state.value.trim() !== ""){
             e.preventDefault();
             this.props.addTask(this.state.value);
             this.setState({ value: '' });
