@@ -3,12 +3,10 @@ import PropTypes from "prop-types";
 import "../css/Form.css";
 
 class Form extends React.Component {
-
     state = { value: '' }
 
     changeValue = (e) => {
         this.setState({ value: e.target.value });
-        console.log(this.value)
     }
 
     buttonSubmit = (e) => {

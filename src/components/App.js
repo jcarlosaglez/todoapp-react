@@ -12,17 +12,19 @@ class App extends React.Component {
             {title: "Tarea 3", done: true},
             {title: "Tarea 4", done: false},
             {title: "Tarea 5", done: true},
-        ]
+        ],
+        countFinished: 0
     }
 
-    /* componentDidMount() {
-        const copyState = [...this.state.todos];
+    componentDidMount() {
+        /* const copyState = [...this.state.todos];
 
         const len = copyState.length - 1;
         copyState[len].done = !copyState[len].done;
 
-        this.setState({todos: copyState})
-    } */
+        this.setState({todos: copyState}) */
+        this.updateFinishedTasks();
+    }
 
     /* handleClick = e => {
         this.setState({
@@ -44,16 +46,20 @@ class App extends React.Component {
         // console.log(copyState[index]);
 
         this.setState({todos: copyState});
+
+        this.updateFinishedTasks();
     }
 
     removeTask = (e, index) => {
-        const copyState = [...this.state.todos];
+        let copyState = [...this.state.todos];
         // console.log(copyState[index]);
 
         copyState.splice(index, 1);
         // console.log(copyState[index]);
 
-        this.setState({todos: copyState});
+        console.log(copyState)
+        this.setState({todos: copyState}, () => this.updateFinishedTasks());
+        console.log(this.state.todos)
     }
 
     addTask = (e) => {
@@ -64,6 +70,8 @@ class App extends React.Component {
 
         if (exist) {
             alert(`La tarea "${title}" se encuentra dentro de las tareas por hacer!`);
+            this.updateFinishedTasks();
+
             return false;
         }
     
@@ -71,14 +79,24 @@ class App extends React.Component {
             todos : this.state.todos.concat([{ title, done: false }])
         });
 
+        this.updateFinishedTasks();
+
         return true;
+    }
+
+    updateFinishedTasks = () => {
+        const finishedTasks = this.state.todos.filter(task => task.done === true);
+        this.setState({countFinished: finishedTasks.length});
     }
 
     render() {
         return (
             <div className="wrapper">
                 <div className="card frame">
-                    <Header count={this.state.todos.length}/>
+                    <Header
+                        count={this.state.todos.length}
+                        countFinished={this.state.countFinished}
+                    />
                     <TodoList
                         toggleTask={this.toggleTask}
                         removeTask={this.removeTask}

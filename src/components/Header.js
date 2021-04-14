@@ -7,6 +7,7 @@ const Header = (props) =>
         <h1 className="card-header-title header">
             Hay {props.count} tareas
         </h1>
+        <p>{props.countFinished} de {props.count} completadas</p>
     </div>
 
 Header.prototypes = {
