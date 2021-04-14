@@ -11,6 +11,7 @@ class Form extends React.Component {
         console.log(this.value)
     }
     buttonSubmit = (e) => {
+        //trim elimina los espacios en blanco
         if(this.state.value.trim() !== ""){
             e.preventDefault();
             this.props.addTask(this.state.value);
