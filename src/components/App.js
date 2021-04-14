@@ -45,9 +45,7 @@ class App extends React.Component {
         copyState[index].done = !copyState[index].done;
         // console.log(copyState[index]);
 
-        this.setState({todos: copyState});
-
-        this.updateFinishedTasks();
+        this.setState({todos: copyState}, () => this.updateFinishedTasks());
     }
 
     removeTask = (e, index) => {
@@ -57,29 +55,29 @@ class App extends React.Component {
         copyState.splice(index, 1);
         // console.log(copyState[index]);
 
-        console.log(copyState)
+        // console.log(copyState)
         this.setState({todos: copyState}, () => this.updateFinishedTasks());
-        console.log(this.state.todos)
+        
     }
 
     addTask = (e) => {
+        let tasks = [...this.state.todos];
         // Lo que reciba addTask se guarda en title
         let title = e;
         
-        const exist = this.state.todos.find(e => title.toLowerCase() === e.title.toLowerCase());
+        const exist = tasks.find(e => title.toLowerCase() === e.title.toLowerCase());
 
         if (exist) {
             alert(`La tarea "${title}" se encuentra dentro de las tareas por hacer!`);
-            this.updateFinishedTasks();
 
             return false;
         }
+
+        tasks.push({ title, done: false });
     
         this.setState({
-            todos : this.state.todos.concat([{ title, done: false }])
-        });
-
-        this.updateFinishedTasks();
+            todos: tasks
+        }, () => this.updateFinishedTasks());
 
         return true;
     }
