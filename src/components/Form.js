@@ -1,27 +1,49 @@
 import React from "react";
+import PropTypes from "prop-types";
 import "../css/Form.css";
 
-const Form = (props) => {
-    this.state = {
-        value: ""
+class Form extends React.Component {
+
+    state = { value: '' }
+
+    changeValue = (e) => {
+        this.setState({ value: e.target.value });
+        console.log(this.value)
+    }
+    buttonSubmit = (e) => {
+        if(this.state.value.trim() !== ""){
+            e.preventDefault();
+            this.props.addTask(this.state.value);
+            this.setState({ value: '' });
+        } else{
+            alert("No escribio nada");
+            e.preventDefault();
+        }
+    }
+    onKeyUp(event) {
+        if (event.key === "Enter") {
+          this.buttonSubmit();
+        }
     }
 
-    changeValue = e => {
-        this.setState({
-            value: e.target.value
-        })
-    }
+    render(){
+        return (  
+            <form className="form" onSubmit={this.buttonSubmit}>
+                <input type="text"
+                    className="input"
+                    placeholder="Agrega una tarea..."
+                    onChange={this.changeValue}
+                    value={this.state.value}
+                    // onKeyPress={this.onKeyUp}
 
-    return (
-        <form className="form" onSubmit={(e) => props.addTask(e)}>
-            <input type="text"
-                className="input"
-                placeholder="Agrega una tarea..."
-                onChange={changeValue}
-            />
-            <button className="button">Guardar</button>
-        </form>
-    )
+                />
+                <button className="button">Guardar</button>     
+            </form>
+        )
+    }
 }
 
+Form.propTypes = {
+    addTask: PropTypes.func.isRequired,
+}
 export default Form;
