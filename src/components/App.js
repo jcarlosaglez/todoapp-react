@@ -7,11 +7,11 @@ import TodoList from "./TodoList";
 class App extends React.Component {
     state = {
         todos: [
-            /* {title: "Tarea 1", done: true},
+            {title: "Tarea 1", done: true},
             {title: "Tarea 2", done: false},
             {title: "Tarea 3", done: true},
             {title: "Tarea 4", done: false},
-            {title: "Tarea 5", done: true}, */
+            {title: "Tarea 5", done: true},
         ]
     }
 
@@ -24,7 +24,7 @@ class App extends React.Component {
         this.setState({todos: copyState})
     } */
 
-    handleClick = e => {
+    /* handleClick = e => {
         this.setState({
             todos: [
                 {title: "Tarea 1", done: true},
@@ -34,7 +34,7 @@ class App extends React.Component {
                 {title: "Tarea 5", done: true},
             ]
         });
-    }
+    } */
 
     toggleTask = (e, index) => {
         const copyState = [...this.state.todos];
@@ -59,16 +59,19 @@ class App extends React.Component {
     addTask = (e) => {
         // Lo que reciba addTask se guarda en title
         let title = e;
-        console.log(title)
-        const repet = this.state.todos.find(e => title.toLowerCase() === e.title.toLowerCase());
-        if (repet) {
-          alert(`La tarea "${title}" se encuentra dentro de las tareas por hacer!`);
-          return
+        
+        const exist = this.state.todos.find(e => title.toLowerCase() === e.title.toLowerCase());
+
+        if (exist) {
+            alert(`La tarea "${title}" se encuentra dentro de las tareas por hacer!`);
+            return false;
         }
     
         this.setState({
-          todos : this.state.todos.concat([{ title, done: false }])
+            todos : this.state.todos.concat([{ title, done: false }])
         });
+
+        return true;
     }
 
     render() {
@@ -81,7 +84,7 @@ class App extends React.Component {
                         removeTask={this.removeTask}
                         todos={this.state.todos}
                     />
-                    <button onClick={this.handleClick}>Inicializar</button>
+                    {/* <button onClick={this.handleClick}>Inicializar</button> */}
                     <Form addTask={this.addTask} />
                 </div>
             </div>

@@ -10,19 +10,17 @@ class Form extends React.Component {
         this.setState({ value: e.target.value });
         console.log(this.value)
     }
+
     buttonSubmit = (e) => {
-        if(this.state.value.trim() !== ""){
-            e.preventDefault();
-            this.props.addTask(this.state.value);
-            this.setState({ value: '' });
-        } else{
-            alert("No escribio nada");
-            e.preventDefault();
+        e.preventDefault();
+        const newTask = this.state.value.trim();
+        if(newTask !== "") {
+            if(this.props.addTask(newTask)) {
+                this.setState({ value: '' });
+            }
         }
-    }
-    onKeyUp(event) {
-        if (event.key === "Enter") {
-          this.buttonSubmit();
+        else{
+            alert("No escribio nada.");
         }
     }
 
@@ -34,8 +32,6 @@ class Form extends React.Component {
                     placeholder="Agrega una tarea..."
                     onChange={this.changeValue}
                     value={this.state.value}
-                    // onKeyPress={this.onKeyUp}
-
                 />
                 <button className="button">Guardar</button>     
             </form>
@@ -46,4 +42,5 @@ class Form extends React.Component {
 Form.propTypes = {
     addTask: PropTypes.func.isRequired,
 }
+
 export default Form;
